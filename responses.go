@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/icloudland/eosd/ecc"
 )
 
 /*
@@ -61,14 +61,14 @@ type DBSizeResp struct {
 	FreeBytes JSONInt64 `json:"free_bytes"`
 	UsedBytes JSONInt64 `json:"used_bytes"`
 	Size      JSONInt64 `json:"size"`
-	Indices   []struct {
+	Indices []struct {
 		Index    string    `json:"index"`
 		RowCount JSONInt64 `json:"row_count"`
 	} `json:"indices"`
 }
 
 type TransactionResp struct {
-	ID      SHA256Bytes `json:"id"`
+	ID SHA256Bytes `json:"id"`
 	Receipt struct {
 		Status            TransactionStatus `json:"status"`
 		CPUUsageMicrosec  int               `json:"cpu_usage_us"`
@@ -350,4 +350,88 @@ type Producer struct {
 }
 type ProducersResp struct {
 	Producers []Producer `json:"producers"`
+}
+
+type Actions_v1d1 struct {
+	GlobalActionSeq  int               `json:"global_action_seq"`
+	AccountActionSeq int               `json:"account_action_seq"`
+	BlockNum         int               `json:"block_num"`
+	BlockTime        string            `json:"block_time"`
+	ActionTrace      *ActionTrace_v1d1 `json:"action_trace"`
+}
+
+type ActionTrace_v1d1 struct {
+	Receipt struct {
+		Receiver       string          `json:"receiver"`
+		ActDigest      string          `json:"act_digest"`
+		GlobalSequence int             `json:"global_sequence"`
+		RecvSequence   int             `json:"recv_sequence"`
+		AuthSequence   [][]interface{} `json:"auth_sequence"`
+		CodeSequence   int             `json:"code_sequence"`
+		AbiSequence    int             `json:"abi_sequence"`
+	} `json:"receipt"`
+
+	Act           *Act_v1d1     `json:"act"`
+	Elapsed       int           `json:"elapsed"`
+	CPUUsage      int           `json:"cpu_usage"`
+	Console       string        `json:"console"`
+	TotalCPUUsage int           `json:"total_cpu_usage"`
+	TrxID         string        `json:"trx_id"`
+	InlineTraces  []interface{} `json:"inline_traces"`
+}
+
+type Act_v1d1 struct {
+	Account string        `json:"account"`
+	Name    string        `json:"name"`
+	Data    *ActData_v1d1 `json:"data"`
+	HexData string        `json:"hex_data"`
+}
+
+type ActData_v1d1 struct {
+	From     string `json:"from"`
+	To       string `json:"to"`
+	Quantity string `json:"quantity"`
+	Memo     string `json:"memo"`
+}
+
+type GetActionsResponse struct {
+	Actions               []*Actions_v1d1 `json:"actions"`
+	LastIrreversibleBlock int             `json:"last_irreversible_block"`
+}
+
+func (action *Actions_v1d1) GetTransferFrom() (res string) {
+	if action.IsValidateTransfer() {
+		return action.ActionTrace.Act.Data.From
+	}
+	return
+}
+
+func (action *Actions_v1d1) GetTransferTo() (res string) {
+	if action.IsValidateTransfer() {
+		return action.ActionTrace.Act.Data.To
+	}
+	return
+}
+
+func (action *Actions_v1d1) GetTransferData() *ActData_v1d1 {
+	if action.IsValidateTransfer() {
+		return action.ActionTrace.Act.Data
+	}
+	return nil
+}
+
+func (action *Actions_v1d1) IsValidateTransfer() (isValidate bool) {
+	if action.ActionTrace == nil {
+		return
+	}
+
+	if action.ActionTrace.Act == nil {
+		return
+	}
+
+	if action.ActionTrace.Act.Data == nil {
+		return
+	}
+
+	return true
 }

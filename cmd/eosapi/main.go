@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
-	"github.com/eoscanada/eos-go/system"
+	"github.com/icloudland/eosd"
+	"github.com/icloudland/eosd/ecc"
+	"github.com/icloudland/eosd/system"
 )
 
 func main() {

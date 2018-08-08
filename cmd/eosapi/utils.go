@@ -1,6 +1,6 @@
 package main
 
-import "github.com/eoscanada/eos-go"
+import "github.com/icloudland/eosd"
 
 func AC(in string) eos.AccountName {
 	return eos.AccountName(in)

@@ -1,8 +1,8 @@
 package system
 
 import (
-	eos "github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
+	eos "github.com/icloudland/eosd"
+	"github.com/icloudland/eosd/ecc"
 )
 
 // SetProds is present in `eosio.bios` contract. Used only at boot time.

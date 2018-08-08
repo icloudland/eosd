@@ -9,7 +9,7 @@ import (
 	"io"
 	"reflect"
 
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/icloudland/eosd/ecc"
 )
 
 // --------------------------------------------------------------

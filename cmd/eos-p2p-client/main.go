@@ -8,8 +8,8 @@ import (
 
 	"encoding/hex"
 
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/p2p"
+	"github.com/icloudland/eosd"
+	"github.com/icloudland/eosd/p2p"
 )
 
 var p2pAddr = flag.String("p2p-addr", "peering.mainnet.eoscanada.com:9876", "P2P socket connection")

@@ -16,8 +16,8 @@ import (
 
 	"math/rand"
 
-	"github.com/eoscanada/eos-go"
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/icloudland/eosd"
+	"github.com/icloudland/eosd/ecc"
 )
 
 type loggerWriter struct {

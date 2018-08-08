@@ -14,7 +14,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/eoscanada/eos-go/ecc"
+	"github.com/icloudland/eosd/ecc"
 )
 
 type API struct {
@@ -291,7 +291,7 @@ func (api *API) cachedGetInfo() (*InfoResp, error) {
 	var info *InfoResp
 	var err error
 
-	if !api.lastGetInfoStamp.IsZero() && time.Now().Add(-1*time.Second).Before(api.lastGetInfoStamp) {
+	if !api.lastGetInfoStamp.IsZero() && time.Now().Add(-1 * time.Second).Before(api.lastGetInfoStamp) {
 		info = api.lastGetInfo
 	} else {
 		info, err = api.GetInfo()
@@ -359,6 +359,25 @@ func (api *API) GetBlockByNumOrIDRaw(query string) (out interface{}, err error) 
 
 func (api *API) GetDBSize() (out *DBSizeResp, err error) {
 	err = api.call("db_size", "get", nil, &out)
+	return
+}
+
+func (api *API) GetActions(name AccountName, pos int, offset int) (out *GetActionsResponse, err error) {
+	m := M{
+		"account_name": name,
+		"pos":          pos,
+		"offset":       offset,
+	}
+	err = api.call("history", "get_actions", m, &out)
+	return
+}
+func (api *API) GetRawActions(name AccountName, pos int, offset int) (out interface{}, err error) {
+	m := M{
+		"account_name": name,
+		"pos":          pos,
+		"offset":       offset,
+	}
+	err = api.call("history", "get_actions", m, &out)
 	return
 }
 

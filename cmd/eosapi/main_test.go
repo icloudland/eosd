@@ -13,7 +13,7 @@ import (
 
 	"encoding/hex"
 
-	"github.com/eoscanada/eos-go"
+	"github.com/icloudland/eosd"
 	"github.com/gin-gonic/gin/json"
 	"github.com/stretchr/testify/assert"
 )

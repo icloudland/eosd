@@ -6,7 +6,7 @@ import (
 	"bufio"
 	"fmt"
 
-	"github.com/eoscanada/eos-go"
+	"github.com/icloudland/eosd"
 )
 
 type actionType int
